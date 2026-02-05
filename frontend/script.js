@@ -10,7 +10,7 @@ const micStatus    = document.getElementById("micStatus");
 const clearBtn     = document.getElementById("clearBtn");
 
 // ── API Configuration ──────────────────────────────────────────────────────
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://ai-project-y1ch.onrender.com";  // Change this to your Flask server URL
 
 // ── State ──────────────────────────────────────────────────────────────────
 let waitingFor  = null;     // "note" | "rps" | null
