@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - WALL-E AI Assistant</title>
+    <link rel="stylesheet" href="nav.css">
+</head>
+<body class="about-section">
+    <nav class="navbar">
+        <div class="main">
+            <div class="logo">
+                <h1>WALL-E</h1>
+            </div>
+            
+            <!-- Hamburger Icon -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul id="navMenu">
+                <li><a href="../index.html">HOME</a></li>
+                <li class="active"><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+                <!-- Login/Logout links will be added dynamically -->
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="about-header">
+                <h1>About WALL-E AI</h1>
+                <p class="subtitle">Your Intelligent Virtual Assistant</p>
+            </div>
+
+            <div class="about-content">
+                <div class="about-card">
+                    <div class="icon">🤖</div>
+                    <h3>Advanced AI Technology</h3>
+                    <p>WALL-E uses cutting-edge artificial intelligence to understand and respond to your needs in real-time, providing intelligent assistance for various tasks.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="icon">🎙️</div>
+                    <h3>Voice Recognition</h3>
+                    <p>Experience seamless voice interactions with our advanced speech recognition technology. Simply speak naturally and WALL-E will understand.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="icon">⚡</div>
+                    <h3>Fast & Responsive</h3>
+                    <p>Get instant responses to your queries with our optimized system designed for speed and efficiency without compromising on quality.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="icon">🔒</div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data and conversations are protected with industry-standard security measures, ensuring complete privacy and confidentiality.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="icon">🌐</div>
+                    <h3>Multi-functional</h3>
+                    <p>From web searches to playing games, taking notes, and more - WALL-E is your all-in-one assistant for daily tasks and entertainment.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="icon">💡</div>
+                    <h3>Smart Learning</h3>
+                    <p>WALL-E continuously improves its understanding and responses to provide you with increasingly better assistance over time.</p>
+                </div>
+            </div>
+
+            <div class="mission-section">
+                <h2>Our Mission</h2>
+                <p>At WALL-E AI, we're committed to making artificial intelligence accessible and useful for everyone. Our mission is to create an intelligent assistant that not only understands what you say but anticipates what you need, making your daily tasks easier and more efficient.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 WALL-E AI Assistant. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Hamburger menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            document.querySelectorAll('#navMenu li a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            // Dynamic navigation based on login status
+            const loggedIn = localStorage.getItem('walleLoggedIn') || sessionStorage.getItem('walleLoggedIn');
+            
+            if (loggedIn) {
+                // User is logged in - add logout button
+                const logoutLi = document.createElement('li');
+                logoutLi.innerHTML = '<a href="#" id="logoutBtn" style="color: #ff6b6b;">LOG OUT</a>';
+                navMenu.appendChild(logoutLi);
+                
+                // Add logout functionality
+                document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to log out?')) {
+                        localStorage.removeItem('walleLoggedIn');
+                        sessionStorage.removeItem('walleLoggedIn');
+                        window.location.href = '../index.html';
+                    }
+                });
+            } else {
+                // User is NOT logged in - add login/signup links
+                const loginLi = document.createElement('li');
+                loginLi.innerHTML = '<a href="login.html">LOG IN</a>';
+                navMenu.appendChild(loginLi);
+                
+                const signupLi = document.createElement('li');
+                signupLi.innerHTML = '<a href="register.html">SIGN UP</a>';
+                navMenu.appendChild(signupLi);
+            }
+        });
+    </script>
+</body>
+</html>

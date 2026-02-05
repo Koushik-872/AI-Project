@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - WALL-E AI Assistant</title>
+    <link rel="stylesheet" href="nav.css">
+</head>
+<body class="contact-section">
+    <nav class="navbar">
+        <div class="main">
+            <div class="logo">
+                <h1>WALL-E</h1>
+            </div>
+            
+            <!-- Hamburger Icon -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul id="navMenu">
+                <li><a href="../index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li class="active"><a href="contact.html">CONTACT</a></li>
+                <!-- Login/Logout links will be added dynamically -->
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="contact-header">
+                <h1>Get In Touch</h1>
+                <p>We'd love to hear from you. Send us a message!</p>
+            </div>
+
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">📧</div>
+                        <h3>Email Us</h3>
+                        <p>support@walle-ai.com</p>
+                        <p>info@walle-ai.com</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">📱</div>
+                        <h3>Call Us</h3>
+                        <p>+1 (555) 123-4567</p>
+                        <p>Mon-Fri: 9:00 AM - 6:00 PM</p>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">📍</div>
+                        <h3>Visit Us</h3>
+                        <p>123 AI Street</p>
+                        <p>Mumbai, India</p>
+                    </div>
+
+                    <div class="social-links">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" title="LinkedIn">💼</a>
+                            <a href="#" title="GitHub">💻</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="john@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required placeholder="How can we help?">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" required placeholder="Tell us more about your inquiry..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                    </form>
+                    <div id="formMessage" class="form-message"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 WALL-E AI Assistant. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Hamburger menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            document.querySelectorAll('#navMenu li a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            // Dynamic navigation based on login status
+            const loggedIn = localStorage.getItem('walleLoggedIn') || sessionStorage.getItem('walleLoggedIn');
+            
+            if (loggedIn) {
+                // User is logged in - add logout button
+                const logoutLi = document.createElement('li');
+                logoutLi.innerHTML = '<a href="#" id="logoutBtn" style="color: #ff6b6b;">LOG OUT</a>';
+                navMenu.appendChild(logoutLi);
+                
+                // Add logout functionality
+                document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to log out?')) {
+                        localStorage.removeItem('walleLoggedIn');
+                        sessionStorage.removeItem('walleLoggedIn');
+                        window.location.href = '../index.html';
+                    }
+                });
+            } else {
+                // User is NOT logged in - add login/signup links
+                const loginLi = document.createElement('li');
+                loginLi.innerHTML = '<a href="login.html">LOG IN</a>';
+                navMenu.appendChild(loginLi);
+                
+                const signupLi = document.createElement('li');
+                signupLi.innerHTML = '<a href="register.html">SIGN UP</a>';
+                navMenu.appendChild(signupLi);
+            }
+
+            // Contact form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formMessage = document.getElementById('formMessage');
+                formMessage.className = 'form-message success';
+                formMessage.textContent = '✓ Thank you for your message! We\'ll get back to you soon.';
+                formMessage.style.display = 'block';
+                
+                // Reset form
+                this.reset();
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

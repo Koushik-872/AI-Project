@@ -1,0 +1,956 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   WALL-E AI ASSISTANT - NAVIGATION STYLES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Reset & Base Styles ──────────────────────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Century Gothic, sans-serif;
+}
+
+:root {
+    --accent: #f5a623;
+    --accent-glow: rgba(245, 166, 35, 0.35);
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ── Main Background Container (ALL PAGES) ────────────────────────────── */
+.page-wrapper,
+.auth-section,
+.about-section,
+.contact-section {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(../walle.jpg);
+    min-height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Specific layout for auth pages ───────────────────────────────────── */
+body.auth-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.auth-section > .auth-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 1rem;
+}
+
+/* ── Navigation Bar (MAIN PAGE STYLE) ─────────────────────────────────── */
+.navbar {
+    background: transparent;
+    padding: 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.main,
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ── Logo (MAIN PAGE STYLE) ───────────────────────────────────────────── */
+.logo { 
+    color: #fff;  
+    float: left;
+    width: 300px;
+    height: 90px;
+    padding-left: 60px;    
+    padding-top: 11.5px;   
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* ── Hamburger Menu ───────────────────────────────────────────────────── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    padding: 10px;
+    float: right;
+    margin-top: 20px;
+    margin-right: 20px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ── Navigation Menu (MAIN PAGE STYLE) ────────────────────────────────── */
+.nav-menu,
+ul {
+    float: right;
+    list-style-type: none;
+    margin-top: 25px;
+    display: flex;
+    gap: 0;
+}
+
+.nav-menu li,
+ul li {
+    display: inline-block;
+}
+
+.nav-menu li a,
+ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid transparent;
+    transition: 0.6s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.nav-menu li a:hover,
+ul li a:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.nav-menu li.active a,
+ul li.active a {
+    background-color: #fff;
+    color: #000;
+}
+
+/* ── Page Content Container ───────────────────────────────────────────── */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 2rem 80px;
+}
+
+main {
+    flex: 1;
+}
+
+/* ── About Page ───────────────────────────────────────────────────────── */
+.about-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.about-header h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.about-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent);
+}
+
+.about-card .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.about-card h3 {
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.about-card p {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+}
+
+.mission-section {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 3rem;
+    border-radius: 15px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.mission-section h2 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.mission-section p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ── Contact Page ─────────────────────────────────────────────────────── */
+.contact-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contact-header h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+}
+
+.contact-header p {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent);
+}
+
+.info-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.info-card h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.info-card p {
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+.social-links {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.social-links h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    background: rgba(245, 166, 35, 0.2);
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.6rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(245, 166, 35, 0.2);
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(245, 166, 35, 0.5);
+    background: var(--accent);
+}
+
+.contact-form-wrapper {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 3rem;
+    border-radius: 15px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact-form label {
+    display: block;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    font-size: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.2);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1.1rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(245, 166, 35, 0.4);
+    letter-spacing: 1px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(245, 166, 35, 0.6);
+    background: #ffb84d;
+}
+
+.submit-btn:active {
+    transform: translateY(-1px);
+}
+
+.form-message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+    backdrop-filter: blur(10px);
+}
+
+.form-message.success {
+    background: rgba(52, 211, 153, 0.3);
+    color: #fff;
+    border: 2px solid #34d399;
+}
+
+.form-message.error {
+    background: rgba(248, 113, 113, 0.3);
+    color: #fff;
+    border: 2px solid #f87171;
+}
+
+/* ── Auth Pages (Login/Register) ──────────────────────────────────────── */
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.auth-header p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+
+.auth-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    display: block;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+
+.auth-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.2);
+}
+
+.form-hint {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    gap: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.9);
+    flex: 1;
+    line-height: 1.4;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.checkbox-label a:hover {
+    text-decoration: underline;
+}
+
+.forgot-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(245, 166, 35, 0.4);
+    letter-spacing: 1px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 166, 35, 0.6);
+    background: #ffb84d;
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-message {
+    padding: 0.8rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: none;
+    backdrop-filter: blur(10px);
+}
+
+.auth-message.success {
+    background: rgba(52, 211, 153, 0.3);
+    color: #fff;
+    border: 2px solid #34d399;
+}
+
+.auth-message.error {
+    background: rgba(248, 113, 113, 0.3);
+    color: #fff;
+    border: 2px solid #f87171;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-footer p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+}
+
+.auth-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ── Shake Animation ──────────────────────────────────────────────────── */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+/* ── Transparent Footer ───────────────────────────────────────────────── */
+.footer {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(245, 166, 35, 0.2);
+    margin-top: 0;
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.95rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Selection Style ──────────────────────────────────────────────────── */
+::selection {
+    background: var(--accent);
+    color: #000;
+}
+
+/* ── Responsive Design ────────────────────────────────────────────────── */
+@media screen and (max-width: 968px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-content {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .contact-header h1,
+    .about-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .subtitle,
+    .contact-header p {
+        font-size: 1.1rem;
+    }
+
+    .container {
+        padding: 80px 1.5rem 60px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Fix for mobile background */
+    .page-wrapper,
+    .auth-section,
+    .about-section,
+    .contact-section {
+        background-attachment: scroll;
+    }
+
+    /* Show hamburger menu */
+    .hamburger {
+        display: flex;
+    }
+
+    /* Mobile navigation menu */
+    ul {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+        transition: left 0.3s ease;
+        padding-top: 80px;
+        margin: 0;
+        z-index: 1000;
+        justify-content: flex-start;
+        gap: 0;
+    }
+
+    ul.active {
+        left: 0;
+    }
+
+    ul li {
+        display: block;
+        margin: 0;
+        width: 100%;
+    }
+
+    ul li a {
+        display: block;
+        padding: 20px;
+        font-size: 1.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+    }
+
+    .logo {
+        width: auto;
+        padding-left: 20px;
+        z-index: 1001;
+        position: relative;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+    }
+    
+    .about-header h1,
+    .contact-header h1 {
+        font-size: 2rem;
+    }
+
+    .about-header p,
+    .contact-header p {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .about-card,
+    .mission-section,
+    .info-card,
+    .social-links {
+        padding: 2rem 1.5rem;
+    }
+    
+    .auth-card {
+        padding: 2.5rem 2rem;
+    }
+
+    body.auth-section > .auth-container {
+        padding: 100px 1rem;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .checkbox-label {
+        width: 100%;
+    }
+
+    .forgot-link {
+        align-self: flex-end;
+    }
+
+    .container {
+        padding: 80px 1rem 60px;
+    }
+
+    .contact-form-wrapper {
+        padding: 2rem 1.5rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .auth-form input {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    .social-icons a {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo {
+        padding-left: 15px;
+    }
+
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+
+    .about-header h1,
+    .contact-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .subtitle,
+    .contact-header p {
+        font-size: 0.95rem;
+    }
+    
+    .container {
+        padding: 60px 1rem 40px;
+    }
+    
+    .about-card,
+    .contact-form-wrapper,
+    .mission-section,
+    .info-card,
+    .social-links {
+        padding: 1.5rem;
+    }
+
+    .about-card h3,
+    .info-card h3,
+    .social-links h3 {
+        font-size: 1.2rem;
+    }
+
+    .mission-section h2 {
+        font-size: 1.6rem;
+    }
+
+    body.auth-section > .auth-container {
+        padding: 80px 1rem;
+    }
+
+    .auth-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .auth-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .submit-btn,
+    .auth-btn {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .social-icons {
+        gap: 0.8rem;
+    }
+
+    ul li a {
+        padding: 18px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+    .submit-btn,
+    .auth-btn,
+    ul li a,
+    .social-icons a {
+        min-height: 44px;
+    }
+    
+    .contact-form input,
+    .contact-form textarea,
+    .auth-form input {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    ul li a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

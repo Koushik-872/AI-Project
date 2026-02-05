@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WALL-E AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script>
+    // Check authentication on page load - NO REDIRECT, just update greeting
+    window.addEventListener('DOMContentLoaded', () => {
+        const loggedIn = localStorage.getItem('walleLoggedIn') || sessionStorage.getItem('walleLoggedIn');
+        
+        // Update navigation based on login status
+        const navList = document.querySelector('.main ul');
+        const greeting = document.querySelector('.title h1');
+        
+        if (loggedIn) {
+            // User is logged in - show personalized greeting and logout
+            const userData = JSON.parse(loggedIn);
+            if (greeting && userData.name) {
+                greeting.textContent = `Welcome ${userData.name.split(' ')[0]}!`;
+            }
+        } else {
+            // User is NOT logged in - show login/signup links instead of logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.parentElement.remove();
+            }
+            
+            // Add login and signup links
+            const loginLi = document.createElement('li');
+            loginLi.innerHTML = '<a href="navbar/login.html">LOG IN</a>';
+            navList.appendChild(loginLi);
+            
+            const signupLi = document.createElement('li');
+            signupLi.innerHTML = '<a href="navbar/register.html">SIGN UP</a>';
+            navList.appendChild(signupLi);
+            
+            // Keep default greeting
+            if (greeting) {
+                greeting.textContent = 'ARTIFICIAL INTELLIGENCE';
+            }
+        }
+    });
+</script>
+
+<!-- ── Main Header with Background ─────────────────────────────────────── -->
+<header class="header">
+    <div class="main">
+        <div class="logo">
+            <h1>WALL-E</h1>
+        </div>
+        
+        <!-- Hamburger Icon -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <ul id="navMenu">
+            <li class="active"><a href="index.html">HOME</a></li>
+            <li><a href="navbar/about.html">ABOUT</a></li>
+            <li><a href="navbar/contact.html">CONTACT</a></li>
+            <li><a href="#" id="logoutBtn" style="color: #ff6b6b;">LOG OUT</a></li>
+        </ul>
+    </div>
+    
+    <div class="title">
+        <h1>ARTIFICIAL INTELLIGENCE</h1>
+    </div>
+    
+    <div class="button">
+        <a href="#" id="startChatBtn" class="btn">LET'S TALK</a>
+        <a href="#services" class="btn">SERVICES</a>
+    </div>
+</header>
+
+<!-- ── Chat Window (sidebar popup) ──────────────────────────────────────── -->
+<section class="chat-section" id="chatSection">
+    
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <div class="status-dot online"></div>
+            <span class="chat-title">WALL-E AI</span>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="clearBtn" class="icon-btn" title="Clear Chat" style="width: auto; padding: 0 12px; font-size: 0.85rem;">🗑️</button>
+            <button id="closeChat" class="close-btn">✕</button>
+        </div>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+        <!-- messages injected by JS -->
+    </div>
+
+    <div class="chat-footer">
+        <input type="text" id="textInput" class="text-input" placeholder="Type a message..." autocomplete="off" />
+        <button id="sendBtn" class="icon-btn" title="Send">⏎</button>
+        <button id="micBtn" class="icon-btn mic-btn" title="Mic">🎤</button>
+    </div>
+
+    <!-- mic status label -->
+    <div class="mic-status" id="micStatus"></div>
+</section>
+
+
+<script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    document.querySelectorAll('#navMenu li a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Logout functionality
+    document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (confirm('Are you sure you want to log out?')) {
+            localStorage.removeItem('walleLoggedIn');
+            sessionStorage.removeItem('walleLoggedIn');
+            window.location.reload(); // Reload page to show login/signup links
+        }
+    });
+</script>
+<script src="script.js"></script>
+</body>
+</html>

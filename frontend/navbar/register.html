@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - WALL-E AI Assistant</title>
+    <link rel="stylesheet" href="nav.css">
+</head>
+<body class="auth-section">
+    <nav class="navbar">
+        <div class="main">
+            <div class="logo">
+                <h1>WALL-E</h1>
+            </div>
+            
+            <!-- Hamburger Icon -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul id="navMenu">
+                <li><a href="../index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+                <li class="active"><a href="register.html">SIGN UP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Create Account</h1>
+                <p>Join WALL-E AI and start your intelligent journey</p>
+            </div>
+
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe" autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a strong password" autocomplete="new-password" minlength="6">
+                    <small class="form-hint">Minimum 6 characters</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password" autocomplete="new-password">
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-btn">Create Account</button>
+                
+                <div id="registerMessage" class="auth-message"></div>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Log in here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 WALL-E AI Assistant. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Hamburger menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            document.querySelectorAll('#navMenu li a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            // Register form submission
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim().toLowerCase();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const terms = document.getElementById('terms').checked;
+                const messageDiv = document.getElementById('registerMessage');
+                
+                // Validation
+                if (password.length < 6) {
+                    showMessage('error', '✗ Password must be at least 6 characters long.');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showMessage('error', '✗ Passwords do not match. Please try again.');
+                    return;
+                }
+                
+                if (!terms) {
+                    showMessage('error', '✗ Please accept the Terms of Service to continue.');
+                    return;
+                }
+                
+                // Get existing users
+                let users = JSON.parse(localStorage.getItem('walleUsers') || '[]');
+                
+                // Check if email already exists
+                if (users.some(u => u.email === email)) {
+                    showMessage('error', '✗ This email is already registered. Please log in instead.');
+                    return;
+                }
+                
+                // Add new user
+                users.push({
+                    name: name,
+                    email: email,
+                    password: password,
+                    registeredDate: new Date().toISOString()
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('walleUsers', JSON.stringify(users));
+                
+                showMessage('success', '✓ Account created successfully! Redirecting to login...');
+                
+                // Reset form
+                this.reset();
+                
+                // Redirect to login
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            });
+            
+            function showMessage(type, text) {
+                const messageDiv = document.getElementById('registerMessage');
+                messageDiv.className = `auth-message ${type}`;
+                messageDiv.textContent = text;
+                messageDiv.style.display = 'block';
+                
+                if (type === 'error') {
+                    document.getElementById('registerForm').classList.add('shake');
+                    setTimeout(() => {
+                        document.getElementById('registerForm').classList.remove('shake');
+                    }, 500);
+                }
+            }
+
+            // Password strength indicator
+            document.getElementById('password').addEventListener('input', function() {
+                const password = this.value;
+                const hint = this.nextElementSibling;
+                
+                if (password.length === 0) {
+                    hint.textContent = 'Minimum 6 characters';
+                    hint.style.color = 'rgba(255, 255, 255, 0.7)';
+                } else if (password.length < 6) {
+                    hint.textContent = 'Too short - keep going';
+                    hint.style.color = '#ff6b6b';
+                } else if (password.length < 10) {
+                    hint.textContent = 'Good password';
+                    hint.style.color = '#ffa500';
+                } else {
+                    hint.textContent = 'Strong password!';
+                    hint.style.color = '#4caf50';
+                }
+            });
+
+            // Check if already logged in
+            const loggedIn = localStorage.getItem('walleLoggedIn') || sessionStorage.getItem('walleLoggedIn');
+            if (loggedIn) {
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>
