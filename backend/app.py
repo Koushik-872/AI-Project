@@ -13,9 +13,8 @@ app = Flask(__name__)
 CORS(app)  
 
 # ─── API KEYS ─────────────────────────────────────────────────────────────────
-NEWS_API_KEY    = "e2d45e2288224271b3cc0f00aa136442"
-WEATHER_API_KEY = "93c8fffbe759747de92b957de2e98143"
-WOLFRAM_APP_ID  = "589JJ8-A7KG327P7R"
+NEWS_API_KEY    = "pub_e3df609c881044969cdcd075982d2ecc"
+WEATHER_API_KEY = "1fafffd81374024b137ade9da419b569"
 
 # ─── In-memory storage ────────────────────────────────────────────────────────
 notes = []
@@ -229,6 +228,7 @@ def chat():
             "• Flip coin — 'flip a coin'\n"
             "• Roll dice — 'roll a dice'\n\n"
             "Say any of these to get started! 🚀"
+            "And to Close Say Exit"
         )
         return jsonify({"reply": reply})
 
@@ -251,16 +251,30 @@ def chat():
     # ── News ──────────────────────────────────────────────────────────────────
     if "news" in query_lower or "headlines" in query_lower:
         try:
-            url  = f"https://newsapi.org/v2/top-headlines?country=in&apiKey={NEWS_API_KEY}"
+            url = f"https://newsdata.io/api/1/news?apikey={NEWS_API_KEY}&country=in&language=en"
             resp = requests.get(url, timeout=5)
+            print(f"Status Code: {resp.status_code}")
+            print(f"Response: {resp.text[:500]}")
             data = resp.json()
-            articles = data.get("articles", [])
+            
+            if data.get("status") != "success":
+                error_msg = data.get('message', 'Unknown error')
+                return jsonify({"reply": f"News API error: {error_msg}"})
+            
+            articles = data.get("results", [])
+            print(f"Number of articles: {len(articles)}")
+
             if not articles:
                 return jsonify({"reply": "No news articles found right now. Try again later!"})
+            
             headlines = []
             for i, art in enumerate(articles[:5], 1):
-                headlines.append(f"{i}. {art['title']}")
+                title = art.get('title', 'No title')
+                source = art.get('source_id', 'Unknown')
+                headlines.append(f"{i}. {title}\n   📰 {source}")
+
             return jsonify({"reply": "📰 Top News Headlines:\n\n" + "\n".join(headlines)})
+        
         except Exception as e:
             return jsonify({"reply": f"Error fetching news: {str(e)}"})
 
@@ -531,7 +545,13 @@ def chat():
         try:
             result = wikipedia.summary(topic, sentences=2)
             return jsonify({"reply": f"📚 {result}"})
-        except:
+        
+        except wikipedia.exceptions.DisambiguationError as e:
+            options = e.options[:5]
+            return jsonify({"reply": f"That topic is ambiguous. Did you mean:\n\n" + "\n".join(f"• {o}" for o in options)})
+        except wikipedia.exceptions.PageError:
+            return jsonify({"reply": f"Sorry, I couldn't find information about '{topic}' on Wikipedia."})
+        except Exception as e:
             return jsonify({"reply": f"I couldn't find detailed info about '{topic}'. Try rephrasing or say 'search {topic}'!"})
 
     # ── System info ───────────────────────────────────────────────────────────
