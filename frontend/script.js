@@ -11,7 +11,7 @@ const clearBtn     = document.getElementById("clearBtn");
 
 // ── API Configuration ──────────────────────────────────────────────────────
 // Change this to your Flask server URL when deploying
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://mern-movie-o9y1.onrender.com";
 
 // For production, use:
 // const API_BASE_URL = "https://your-server.com";
