@@ -10,7 +10,11 @@ const micStatus    = document.getElementById("micStatus");
 const clearBtn     = document.getElementById("clearBtn");
 
 // ── API Configuration ──────────────────────────────────────────────────────
-const API_BASE_URL = "https://ai-project-y1ch.onrender.com";  // Change this to your Flask server URL
+// Change this to your Flask server URL when deploying
+const API_BASE_URL = "http://localhost:5000";
+
+// For production, use:
+// const API_BASE_URL = "https://your-server.com";
 
 // ── State ──────────────────────────────────────────────────────────────────
 let waitingFor  = null;     // "note" | "rps" | null
@@ -123,10 +127,10 @@ function speakText(text, onDone) {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
 
-    // Remove emojis and clean text
+    // Remove emojis and clean text (improved emoji regex)
     const clean = text
         .replace(/[\u{1F600}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}]/gu, "")
-        .replace(/[•○✓✅⚠️]/g, "")
+        .replace(/[•○✓✅⚠️🚀🔇🎤🎙️🔊🧠🔍🌡️🎮😂🧠💪🎉❌]/g, "")
         .trim();
 
     if (!clean) { 
@@ -380,7 +384,7 @@ async function sendToBot(userMessage) {
         hideTyping();
         console.error("Error communicating with server:", err);
         
-        addMessage("bot", "⚠️ Oops! I had trouble connecting to my brain. Please check if the server is running and try again!");
+        addMessage("bot", "⚠️ Oops! I had trouble connecting to my brain. Please check if the server is running on http://localhost:5000 and try again!");
         
         processing = false;
         if (loopActive) {
@@ -448,13 +452,14 @@ window.addEventListener("load", () => {
     const hasSpeechSynthesis = "speechSynthesis" in window;
     
     if (!hasWebSpeech) {
-        console.warn("⚠️ Speech recognition not supported");
+        console.warn("⚠️ Speech recognition not supported in this browser");
     }
     if (!hasSpeechSynthesis) {
-        console.warn("⚠️ Speech synthesis not supported");
+        console.warn("⚠️ Speech synthesis not supported in this browser");
     }
     
-    console.log("🤖 WALL-E initialized successfully!");
+    console.log("🤖 WALL-E Frontend initialized successfully!");
+    console.log(`📡 Backend: ${API_BASE_URL}`);
 });
 
 // ── Prevent accidental page closure ───────────────────────────────────────
@@ -464,3 +469,25 @@ window.addEventListener("beforeunload", (e) => {
         e.returnValue = "";
     }
 });
+
+// ── Connection health check (optional - uncomment to enable) ──────────────
+/*
+async function checkBackendHealth() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/`, { method: 'GET', timeout: 5000 });
+        if (res.ok) {
+            const data = await res.json();
+            console.log("✅ Backend healthy:", data);
+            return true;
+        }
+    } catch (err) {
+        console.warn("⚠️ Backend unreachable:", err.message);
+        return false;
+    }
+}
+
+// Check backend when page loads
+window.addEventListener("load", () => {
+    checkBackendHealth();
+});
+*/
